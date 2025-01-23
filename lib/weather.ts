@@ -1,3 +1,5 @@
+import { ForecastDay } from "./types";
+
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
 export async function fetchWeatherData(lat: number, lon: number) {
@@ -18,7 +20,11 @@ export async function fetchWeatherData(lat: number, lon: number) {
     const weatherData = await weatherResponse.json();
     const forecastData = await forecastResponse.json();
 
-    const dailyForecasts = forecastData.list.reduce((acc: any[], item: any) => {
+    const dailyForecasts: ForecastDay[] = forecastData.list.reduce((acc: ForecastDay[],
+      item: {
+        dt: number; main: { temp_min: number; temp_max: number; temp: number };
+        weather: { main: string; description: string; icon: string }[]
+      }) => {
       const date = new Date(item.dt * 1000).setHours(0, 0, 0, 0);
       if (!acc.find((forecast) => new Date(forecast.dt * 1000).setHours(0, 0, 0, 0) === date)) {
         acc.push({

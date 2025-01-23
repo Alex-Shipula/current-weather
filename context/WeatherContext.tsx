@@ -18,11 +18,11 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
   const fetchData = useCallback((lat: number, lon: number) => {
     setLoading(true);
     fetchWeatherData(lat, lon)
-      .then((data: any) => {
+      .then((data: WeatherData) => {
         setWeatherData(data);
         setLoading(false);
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         setError(error.message);
         setLoading(false);
       });
@@ -51,11 +51,11 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (location) {
       fetchWeatherData(location.lat, location.lon)
-        .then((data: any) => {
+        .then((data: WeatherData) => {
           setWeatherData(data);
           setLoading(false);
         })
-        .catch((error: any) => {
+        .catch((error: Error) => {
           setError(error.message);
           setLoading(false);
         });

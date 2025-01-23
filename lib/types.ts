@@ -1,3 +1,4 @@
+
 export interface WeatherData {
   location: {
     name: string;
@@ -16,19 +17,21 @@ export interface WeatherData {
       icon: string;
     };
   };
-  daily: Array<{
-    dt: number;
-    temp: {
-      min: number;
-      max: number;
-      day: number;
-    };
-    weather: {
-      main: string;
-      description: string;
-      icon: string;
-    };
-  }>;
+  daily: ForecastDay[];
+}
+
+export interface ForecastDay {
+  dt: number;
+  temp: {
+    min: number;
+    max: number;
+    day: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+    icon: string;
+  };
 }
 
 export interface WeatherContextType {
