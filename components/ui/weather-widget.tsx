@@ -4,7 +4,9 @@ import React from 'react';
 import { Box, Paper, Typography, CircularProgress, Alert } from '@mui/material';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import CloudIcon from '@mui/icons-material/Cloud';
+import RainIcon from '@mui/icons-material/Grain';
 import AirIcon from '@mui/icons-material/Air';
+import SnowIcon from '@mui/icons-material/AcUnit';
 import OpacityIcon from '@mui/icons-material/Opacity';
 import { useWeatherContext } from '@/context/WeatherContext';
 
@@ -45,6 +47,10 @@ export function WeatherWidget({ size = 'small' }: WeatherWidgetProps) {
         return <WbSunnyIcon sx={{ fontSize: 40, color: 'primary.main' }} />;
       case 'clouds':
         return <CloudIcon sx={{ fontSize: 40, color: 'secondary.main' }} />;
+      case 'rain':
+        return <RainIcon sx={{ fontSize: 40, color: 'secondary.main' }} />;
+      case 'snow':
+        return <SnowIcon sx={{ fontSize: 40, color: 'secondary.main' }} />;
       default:
         return <WbSunnyIcon sx={{ fontSize: 40, color: 'primary.main' }} />;
     }
@@ -93,12 +99,12 @@ export function WeatherWidget({ size = 'small' }: WeatherWidgetProps) {
         </Typography>
       </Box>
 
-      <Box sx={{ 
-        display: 'flex', 
+      <Box sx={{
+        display: 'flex',
         flexWrap: 'wrap',
         gap: 2,
         justifyContent: 'center',
-        mt: 3 
+        mt: 3
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <OpacityIcon />
@@ -121,7 +127,7 @@ export function WeatherWidget({ size = 'small' }: WeatherWidgetProps) {
       </Box>
 
       {(size === 'wide' || size === 'large') && (
-        <Box sx={{ 
+        <Box sx={{
           mt: 4,
           display: 'grid',
           gridTemplateColumns: {
