@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { WeatherContextType, WeatherData } from '@/lib/types';
-import { fetchWeatherData } from '@/lib/weather';
 
 const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
 
@@ -15,9 +14,25 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
     null
   );
 
+  async function getWeather(lat: number, lon: number) {
+    const response = await fetch('/api/getWeather', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ lat, lon }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch weather data');
+    }
+
+    return response.json();
+  };
+
   const fetchData = useCallback((lat: number, lon: number) => {
     setLoading(true);
-    fetchWeatherData(lat, lon)
+    getWeather(lat, lon)
       .then((data: WeatherData) => {
         setWeatherData(data);
         setLoading(false);
@@ -50,7 +65,7 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (location) {
-      fetchWeatherData(location.lat, location.lon)
+      getWeather(location.lat, location.lon)
         .then((data: WeatherData) => {
           setWeatherData(data);
           setLoading(false);
